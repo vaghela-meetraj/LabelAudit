@@ -1,0 +1,97 @@
+﻿ticket_id,message,category,source
+1,My internet connection keeps dropping every few minutes. I have restarted the router but the problem persists.,technical,web
+2,I was charged twice for my subscription this month. Please refund the duplicate payment.,billing,email
+3,I cannot log into my account. The password reset email never arrives.,account,web
+4,My internet connection keeps dropping every few minutes. I have restarted the router but the problem persists.,technical,web
+5,The app crashes when I try to upload a file larger than 10 MB.,technical,email
+6,"Please update my billing address to 45 Oak Street, Springfield.",billing,phone
+7,I cannot log into my account. The password reset email never arrives.,account,web
+8,My subscription was renewed without my consent. I want a full refund.,billing,web
+9,I cannot connect to the VPN from my home network.,technical,email
+10,My account was locked after too many failed login attempts.,account,phone
+11,The invoice for March shows the wrong amount charged.,billing,email
+12,The website is very slow to load when I am on mobile data.,technical,web
+13,How do I change the email address on my account?,account,email
+14,I was charged twice for my subscription this month. Please refund the duplicate payment.,billing,phone
+15,My wifi keeps disconnecting while working from home.,technical,web
+16,I need a receipt for my last three payments for tax purposes.,billing,email
+17,I cannot log into my account the password reset email never arrives.,account,web
+18,My two-factor authentication stopped working after I got a new phone.,account,phone
+19,The mobile app freezes on the home screen after the latest update.,technical,email
+20,I think I was billed for a service I cancelled three months ago.,billing,web
+21,How do I download all my account data?,account,web
+22,There is no audio in the video calls on your platform.,technical,phone
+23,I need to cancel my premium subscription immediately.,billing,email
+24,My internet connection keeps dropping every few minutes and I have restarted the router.,technical,web
+25,Can I transfer my account to a different email address?,account,web
+26,I have been waiting over a week for my refund to appear.,billing,phone
+27,The error code 503 appears every time I try to load the dashboard.,technical,email
+28,I forgot my security question answer and cannot verify my identity.,account,web
+29,My credit card was charged but the order was never confirmed.,billing,web
+30,Notifications are not coming through on Android devices.,technical,email
+31,I would like to merge two accounts under one login.,account,phone
+32,The automatic renewal charged me without sending a reminder email.,billing,web
+33,Bluetooth headphones are not detected by the desktop app.,technical,email
+34,My account shows an incorrect membership tier.,account,web
+35,I received a charge for a premium tier I never signed up for.,billing,phone
+36,Videos buffer constantly even on a fast connection.,technical,web
+37,I need to update my payment method to a new credit card.,billing,email
+38,The two-factor authentication code expires before I can enter it.,account,web
+39,My monitor flickers when connected via HDMI to my laptop.,technical,phone
+40,I was overcharged by ten dollars on my last invoice.,billing,web
+41,How do I set up a family account with multiple users?,account,email
+42,The browser extension stopped working after the Chrome update.,technical,web
+43,I dispute the charge from last Tuesday on my bank statement.,billing,phone
+44,My account photo does not update even after uploading a new one.,account,web
+45,The PDF export feature produces blank pages.,technical,email
+46,I need an itemised invoice for my company accounts team.,billing,web
+47,My subscription was paused without my request.,account,phone
+48,The search function returns no results for common keywords.,technical,email
+49,I need to close my account and receive a refund for unused months.,billing,web
+50,My profile settings reset after every login.,account,web
+51,The dark mode setting does not persist between sessions.,technical,email
+52,I was billed for an annual plan but I selected monthly.,billing,phone
+53,My account has been hacked and I do not recognise the login activity.,account,web
+54,File uploads time out after thirty seconds on the desktop app.,technical,email
+55,A payment from six months ago is still showing as pending.,billing,web
+56,I keep getting logged out of my account every day.,account,web
+57,Screen sharing does not work in the video conferencing feature.,technical,phone
+58,I cancelled my subscription last month but was still billed.,billing,email
+59,My username was changed without my permission.,account,web
+60,The export to CSV button does nothing when clicked.,technical,web
+61,I believe my account was charged the wrong currency.,billing,email
+62,I cannot access the billing history section of my account.,account,web
+63,The keyboard shortcut to save does not work on Linux.,technical,phone
+64,I want to downgrade my subscription from premium to basic.,billing,web
+65,I cannot access my account from a different country.,account,email
+66,The graph on the analytics page is not loading.,technical,web
+67,Please send me a copy of all invoices for the past year.,billing,phone
+68,My account shows I have zero credits but I bought fifty last week.,account,web
+69,The print function crashes the application on Windows 11.,technical,email
+70,A refund was approved but I have not received the money yet.,billing,web
+71,I need to link my Google account to my existing login.,account,web
+72,The software will not install on macOS Ventura.,technical,email
+73,I was charged for a plan I downgraded from three weeks ago.,billing,web
+74,My account keeps showing a different name than the one I registered with.,account,phone
+75,Drag and drop does not work in the file manager section.,technical,web
+76,Please remove the saved credit card from my account.,billing,email
+77,I have not received the welcome email after creating my account.,account,web
+78,,technical,web
+79,Please update my billing details.,billing,email
+80,The mobile app is too slow.,technical,phone
+81,I cannot log in to my account. Password reset emails are not arriving.,account,email
+82,My internet connection keeps dropping every few minutes. I have restarted the router but the problem persists.,account,web
+83,I was charged twice for my monthly subscription. Please issue a refund.,billing,phone
+84,Session times out too quickly on the web portal.,account,web
+85,The notification sound plays twice every time there is an alert.,technical,web
+86,I cannot find my previous order in the billing history.,billing,email
+87,The system is down and I cannot access any features.,technical,phone
+88,I need a VAT invoice for my recent purchase.,billing,email
+89,My security settings page shows an error and will not load.,account,web
+90,Data sync fails every time I try to sync across devices.,technical,email
+91,I was charged after I explicitly cancelled my account last month.,billing,phone
+92,My login session expires after only a few minutes of inactivity.,account,web
+93,The live chat widget crashes every time I open it.,technical,web
+94,I paid for an upgrade but the features are still locked.,billing,email
+95,My account was suspended for no reason I can identify.,account,phone
+96,,billing,web

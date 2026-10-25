@@ -1,4 +1,4 @@
-﻿ticket_id,message,category,source
+ticket_id,message,category,source
 1,My internet connection keeps dropping every few minutes. I have restarted the router but the problem persists.,technical,web
 2,I was charged twice for my subscription this month. Please refund the duplicate payment.,billing,email
 3,I cannot log into my account. The password reset email never arrives.,account,web
@@ -13,7 +13,7 @@
 12,The website is very slow to load when I am on mobile data.,technical,web
 13,How do I change the email address on my account?,account,email
 14,I was charged twice for my subscription this month. Please refund the duplicate payment.,billing,phone
-15,My wifi keeps disconnecting while working from home.,technical,web
+15,The wifi keeps disconnecting every couple of minutes. Rebooting the router did not fix it.,technical,web
 16,I need a receipt for my last three payments for tax purposes.,billing,email
 17,I cannot log into my account the password reset email never arrives.,account,web
 18,My two-factor authentication stopped working after I got a new phone.,account,phone
@@ -79,9 +79,9 @@
 78,,technical,web
 79,Please update my billing details.,billing,email
 80,The mobile app is too slow.,technical,phone
-81,I cannot log in to my account. Password reset emails are not arriving.,account,email
+81,I am unable to sign in to my account. Password recovery emails are not being delivered.,account,email
 82,My internet connection keeps dropping every few minutes. I have restarted the router but the problem persists.,account,web
-83,I was charged twice for my monthly subscription. Please issue a refund.,billing,phone
+83,I got double charged for my monthly subscription. Please issue a refund for the extra charge.,billing,phone
 84,Session times out too quickly on the web portal.,account,web
 85,The notification sound plays twice every time there is an alert.,technical,web
 86,I cannot find my previous order in the billing history.,billing,email

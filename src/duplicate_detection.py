@@ -156,12 +156,43 @@ class NearDupResult:
     n_conflicts: int
     n_analyzed_records: int          # Records fed to the vectorizer
     hit_pair_cap: bool               # True if max_pairs was reached
-    vectorizer_word: Optional[TfidfVectorizer]  # Kept for inspection
-    vectorizer_char: Optional[TfidfVectorizer]
+    vectorizer_word: Optional[object] = None  # Kept for inspection
+    vectorizer_char: Optional[object] = None
+    similarity_method: str = "tfidf"
 
 
 _BLOCK_SIZE = 500          # Rows per block in the similarity computation
 DEFAULT_MAX_PAIRS = 200_000
+_SENTENCE_MODEL = None
+
+
+def get_sentence_model():
+    """Lazily load and cache the SentenceTransformer model for semantic analysis."""
+    global _SENTENCE_MODEL
+    if _SENTENCE_MODEL is None:
+        try:
+            from sentence_transformers import SentenceTransformer
+            _SENTENCE_MODEL = SentenceTransformer("all-MiniLM-L6-v2")
+        except Exception:
+            _SENTENCE_MODEL = False
+    return _SENTENCE_MODEL if _SENTENCE_MODEL is not False else None
+
+
+def build_semantic_matrix(texts: list[str]) -> tuple[np.ndarray, Optional[str]]:
+    """
+    Encode texts with all-MiniLM-L6-v2 and return L2-normalized dense embeddings.
+    Captures deep sentence meaning, intent, synonyms, and paraphrases.
+    """
+    model = get_sentence_model()
+    if model is None:
+        raise RuntimeError("SentenceTransformer is not available.")
+    embeddings = model.encode(
+        texts,
+        convert_to_numpy=True,
+        normalize_embeddings=True,
+        show_progress_bar=False,
+    )
+    return embeddings, "all-MiniLM-L6-v2"
 
 
 def build_tfidf_matrix(
@@ -216,22 +247,19 @@ def find_near_duplicates(
     pairwise_limit: int = 5000,
     max_pairs: int = DEFAULT_MAX_PAIRS,
     exact_dup_result: Optional[ExactDupResult] = None,
+    similarity_method: str = "tfidf",
 ) -> NearDupResult:
     """
-    Find near-duplicate and conflicting-label pairs using TF-IDF cosine similarity.
+    Find near-duplicate and conflicting-label pairs using cosine similarity.
+    Supports either semantic embeddings (captures meaning & paraphrases)
+    or lexical TF-IDF (word/character overlap).
 
     Algorithm
     ---------
     1. Take one representative per exact-duplicate group (to avoid spurious pairs).
-    2. Fit TF-IDF on eligible representative texts.
-    3. Compute similarity in row blocks; keep only entries above the candidate
-       threshold min(near_dup_threshold, conflict_threshold) where col_idx > row_idx.
+    2. Encode eligible representative texts into semantic or TF-IDF matrix.
+    3. Compute similarity in row blocks; keep only entries above candidate threshold.
     4. Classify each surviving pair against its own threshold.
-
-    Parameters
-    ----------
-    exact_dup_result : if provided, used to pick representatives and expand
-                       group membership into pair listings.
     """
     candidate_threshold = min(near_dup_threshold, conflict_threshold)
 
@@ -272,10 +300,21 @@ def find_near_duplicates(
             pairs=[], n_pairs_total=0, n_near_dup=0, n_conflicts=0,
             n_analyzed_records=n_analyzed, hit_pair_cap=False,
             vectorizer_word=None, vectorizer_char=None,
+            similarity_method=similarity_method,
         )
 
-    # --- Build TF-IDF matrix ---
-    matrix, vect_word, vect_char = build_tfidf_matrix(texts, use_char=use_char)
+    # --- Build representation matrix ---
+    actual_method = similarity_method
+    if similarity_method == "semantic":
+        try:
+            matrix, model_name = build_semantic_matrix(orig_texts)
+            vect_word = model_name
+            vect_char = None
+        except Exception:
+            matrix, vect_word, vect_char = build_tfidf_matrix(texts, use_char=use_char)
+            actual_method = "tfidf"
+    else:
+        matrix, vect_word, vect_char = build_tfidf_matrix(texts, use_char=use_char)
 
     # --- Block-wise similarity ---
     pairs: list[PairFinding] = []
@@ -286,15 +325,21 @@ def find_near_duplicates(
         block_mat = matrix[block_start:block_end]
 
         # Cosine similarity of block rows against all rows
-        sim_block = (block_mat @ matrix.T).toarray()  # shape: (block, n_analyzed)
+        if isinstance(matrix, np.ndarray):
+            sim_block = block_mat @ matrix.T
+        else:
+            sim_block = (block_mat @ matrix.T).toarray()  # shape: (block, n_analyzed)
 
         for local_i, global_i in enumerate(range(block_start, block_end)):
             row_sims = sim_block[local_i]
-            # Only consider j > global_i (upper triangle, no self-pairs)
-            for global_j in range(global_i + 1, n_analyzed):
+            # Fast vectorized scan for candidates in the upper triangle (j > global_i)
+            candidate_j_rel = np.where(row_sims[global_i + 1:] >= candidate_threshold)[0]
+            if len(candidate_j_rel) == 0:
+                continue
+
+            for rel_j in candidate_j_rel:
+                global_j = global_i + 1 + int(rel_j)
                 sim = float(row_sims[global_j])
-                if sim < candidate_threshold:
-                    continue
 
                 same_label = labels[global_i] == labels[global_j]
                 is_near_dup = sim >= near_dup_threshold
@@ -303,28 +348,52 @@ def find_near_duplicates(
                 if not is_near_dup and not is_conflict:
                     continue
 
-                if is_near_dup and is_conflict:
-                    ftype = "near_dup_conflict"
-                    reason = (
-                        f"These texts are very similar (similarity {sim:.3f} ≥ "
-                        f"near-duplicate threshold {near_dup_threshold}) but have "
-                        f"different labels. Review both the deduplication and the labels."
-                    )
-                elif is_near_dup:
-                    ftype = "near_duplicate"
-                    reason = (
-                        f"These texts are very similar (similarity {sim:.3f} ≥ "
-                        f"near-duplicate threshold {near_dup_threshold}) and share the "
-                        f"same label '{labels[global_i]}'."
-                    )
+                if actual_method == "semantic":
+                    if is_near_dup and is_conflict:
+                        ftype = "near_dup_conflict"
+                        reason = (
+                            f"These texts have the same meaning (semantic similarity {sim:.3f} ≥ "
+                            f"near-duplicate threshold {near_dup_threshold}) but have "
+                            f"different labels. Review both the deduplication and the labels."
+                        )
+                    elif is_near_dup:
+                        ftype = "near_duplicate"
+                        reason = (
+                            f"These texts express the same meaning (semantic similarity {sim:.3f} ≥ "
+                            f"near-duplicate threshold {near_dup_threshold}) with matching "
+                            f"label '{labels[global_i]}'."
+                        )
+                    else:
+                        ftype = "conflicting_label"
+                        reason = (
+                            f"These texts express similar meaning (semantic similarity {sim:.3f} ≥ "
+                            f"conflict threshold {conflict_threshold}) but have different "
+                            f"labels ('{labels[global_i]}' vs '{labels[global_j]}'). "
+                            f"This is a review signal, not proof of an error."
+                        )
                 else:
-                    ftype = "conflicting_label"
-                    reason = (
-                        f"These texts are similar (similarity {sim:.3f} ≥ "
-                        f"conflict threshold {conflict_threshold}) but have different "
-                        f"labels ('{labels[global_i]}' vs '{labels[global_j]}'). "
-                        f"This is a review signal, not proof of an error."
-                    )
+                    if is_near_dup and is_conflict:
+                        ftype = "near_dup_conflict"
+                        reason = (
+                            f"These texts are very similar (similarity {sim:.3f} ≥ "
+                            f"near-duplicate threshold {near_dup_threshold}) but have "
+                            f"different labels. Review both the deduplication and the labels."
+                        )
+                    elif is_near_dup:
+                        ftype = "near_duplicate"
+                        reason = (
+                            f"These texts are very similar (similarity {sim:.3f} ≥ "
+                            f"near-duplicate threshold {near_dup_threshold}) and share the "
+                            f"same label '{labels[global_i]}'."
+                        )
+                    else:
+                        ftype = "conflicting_label"
+                        reason = (
+                            f"These texts are similar (similarity {sim:.3f} ≥ "
+                            f"conflict threshold {conflict_threshold}) but have different "
+                            f"labels ('{labels[global_i]}' vs '{labels[global_j]}'). "
+                            f"This is a review signal, not proof of an error."
+                        )
 
                 # When a representative stands for an exact-dup group, expand to
                 # group member lists.  For simplicity we list the representative
@@ -362,6 +431,7 @@ def find_near_duplicates(
         hit_pair_cap=hit_cap,
         vectorizer_word=vect_word,
         vectorizer_char=vect_char,
+        similarity_method=actual_method,
     )
 
 

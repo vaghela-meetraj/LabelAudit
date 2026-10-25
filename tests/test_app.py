@@ -60,8 +60,9 @@ class TestAppSmoke:
             at.file_uploader[0].set_value(("example_dataset.csv", sample_bytes, "text/csv"))
             at.run()
         assert not at.exception, f"Exception after upload: {at.exception}"
-        at.selectbox(key="form_text_col").select("message")
-        at.selectbox(key="form_label_col").select("category")
+        # Column selection now uses radio buttons
+        at.radio(key="form_text_col").set_value("message")
+        at.radio(key="form_label_col").set_value("category")
         next(button for button in at.button if button.label == "▶ Run Audit").click().run()
         assert not at.exception, f"Exception after audit: {at.exception}"
         assert at.session_state["audit_result"] is not None
@@ -73,7 +74,32 @@ def test_settings_and_run_button_are_in_main_workspace_after_upload():
     at.file_uploader[0].set_value(("example_dataset.csv", SAMPLE_CSV.read_bytes(), "text/csv"))
     at.run()
     assert not at.exception
-    assert any(widget.label == "Text column" for widget in at.selectbox)
-    assert any(widget.label == "Label column" for widget in at.selectbox)
+    assert any(widget.label == "Text column" for widget in at.radio)
+    assert any(widget.label == "Label column" for widget in at.radio)
     assert any(widget.label == "▶ Run Audit" for widget in at.button)
     assert any("Dataset loaded" in widget.value for widget in at.info)
+
+
+def test_app_runs_with_selected_rows():
+    """Verify that multiple rows can be selected to run the audit at once."""
+    at = AppTest.from_file(APP_PATH, default_timeout=60)
+    at.run()
+    sample_bytes = SAMPLE_CSV.read_bytes()
+    at.file_uploader[0].set_value(("example_dataset.csv", sample_bytes, "text/csv"))
+    at.run()
+    assert not at.exception
+
+    at.radio(key="form_text_col").set_value("message")
+    at.radio(key="form_label_col").set_value("category")
+    at.radio(key="form_row_mode").set_value("Select specific rows")
+    at.run()
+    assert not at.exception
+
+    # Select multiple rows (e.g. 10 rows)
+    chosen_rows = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+    at.multiselect(key="form_selected_rows").set_value(chosen_rows)
+    next(button for button in at.button if button.label == "▶ Run Audit").click().run()
+    assert not at.exception
+    result = at.session_state["audit_result"]
+    assert result is not None
+    assert result.exclusion.n_total_rows == len(chosen_rows)

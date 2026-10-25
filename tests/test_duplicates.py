@@ -316,3 +316,30 @@ class TestPairsToDataframe:
         )
         pair_df = pairs_to_dataframe(result.pairs)
         assert len(pair_df) == len(result.pairs)
+
+
+class TestSemanticNearDuplicates:
+    def test_detects_same_meaning_different_wording(self):
+        """
+        Verify that semantic embeddings detect pairs with identical meaning
+        despite having completely different vocabulary/wording.
+        """
+        data = {
+            "csv_row": [2, 3],
+            "text": [
+                "I was charged twice for my subscription this month. Please refund the duplicate payment.",
+                "I got double charged for my monthly subscription. Please issue a refund for the extra charge.",
+            ],
+            "label": ["billing", "billing"],
+        }
+        df = _prep(pd.DataFrame(data))
+        res = find_near_duplicates(
+            df, "text", "label",
+            near_dup_threshold=0.75,
+            conflict_threshold=0.70,
+            similarity_method="semantic",
+        )
+        assert res.n_pairs_total == 1
+        assert res.pairs[0].finding_type == "near_duplicate"
+        assert res.pairs[0].similarity > 0.80
+        assert "same meaning" in res.pairs[0].reason.lower()

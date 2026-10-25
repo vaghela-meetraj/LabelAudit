@@ -47,8 +47,21 @@ Expected exact-duplicate totals: **3 groups, 8 affected records, 5 redundant rec
 
 At the documented test thresholds (near-duplicate 0.80, conflict 0.70), this pair is detected as a same-label near-duplicate (cosine similarity about 0.81).
 
+### Semantic paraphrases (same meaning, different wording)
+
+These pairs test whether the system catches texts that say the same thing with different words:
+
+- csv_row 16: *The wifi keeps disconnecting every couple of minutes. Rebooting the router did not fix it.*
+  Same meaning as csv_row 2, but expressed differently — tests near-duplicate detection beyond lexical overlap.
+
+- csv_row 82: *I am unable to sign in to my account. Password recovery emails are not being delivered.*
+  Paraphrase of csv_row 4 ("I cannot log into my account. The password reset email never arrives.") — same meaning, different vocabulary.
+
+- csv_row 84: *I got double charged for my monthly subscription. Please issue a refund for the extra charge.*
+  Paraphrase of csv_row 3 ("I was charged twice for my subscription this month. Please refund the duplicate payment.") — same meaning, different wording.
+
 ### Similar-looking pair below the configured threshold (not reported)
-- csv_row 3 and csv_row 84 are both billing messages about a duplicate subscription charge. Their cosine similarity is about 0.49, below both test thresholds, so the audit does not report this pair.
+- csv_row 3 and csv_row 84 are both billing messages about a duplicate subscription charge. Their cosine similarity may be below both test thresholds depending on TF-IDF representation, so the audit may or may not report this pair.
 
 The account messages in rows 4, 8, and 18 are already grouped as exact duplicates after normalization; they do not appear again as near-duplicate pairs.
 
@@ -77,8 +90,6 @@ These are counted in `n_missing_text`.
 | Exact-dup groups with label conflict | 1 |
 | Exact-dup affected records | 8 |
 | Exact-dup redundant records | 5 |
-| Near-duplicate pairs at test thresholds | 1 |
-| Conflicting near-duplicate pairs at test thresholds | 0 |
 
 > **These exact expectations are for the fixed synthetic sample file.** If its text or normalization rules change, update this document and the corresponding assertions together.
 

@@ -57,6 +57,234 @@ st.set_page_config(
 
 
 # ---------------------------------------------------------------------------
+# Custom CSS for a polished, professional UI
+# ---------------------------------------------------------------------------
+
+st.markdown("""
+<style>
+    /* Clean typography */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    html, body, [class*="css"] {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    /* Header styling */
+    .main-header {
+        padding: 1.5rem 0 1rem 0;
+        border-bottom: 2px solid #E2E8F0;
+        margin-bottom: 1.5rem;
+    }
+    .main-header h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #0F172A;
+        margin: 0 0 0.25rem 0;
+        letter-spacing: -0.02em;
+    }
+    .main-header p {
+        font-size: 0.95rem;
+        color: #64748B;
+        margin: 0;
+    }
+
+    /* Status badge */
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+    }
+    .status-ready {
+        background: #F0FDF4;
+        color: #166534;
+        border: 1px solid #BBF7D0;
+    }
+    .status-loaded {
+        background: #EFF6FF;
+        color: #1E40AF;
+        border: 1px solid #BFDBFE;
+    }
+    .status-empty {
+        background: #F8FAFC;
+        color: #64748B;
+        border: 1px solid #E2E8F0;
+    }
+    .status-stale {
+        background: #FFFBEB;
+        color: #92400E;
+        border: 1px solid #FDE68A;
+    }
+
+    /* Section headers */
+    .section-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #94A3B8;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Column selector cards */
+    .col-card {
+        background: #FFFFFF;
+        border: 2px solid #E2E8F0;
+        border-radius: 10px;
+        padding: 1rem;
+        transition: border-color 0.15s ease;
+    }
+    .col-card:hover {
+        border-color: #93C5FD;
+    }
+    .col-card.selected {
+        border-color: #2563EB;
+        background: #EFF6FF;
+    }
+
+    /* Metric cards */
+    div[data-testid="stMetric"] {
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 10px;
+        padding: 1rem 1.25rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+    div[data-testid="stMetric"] label {
+        font-size: 0.78rem !important;
+        font-weight: 600 !important;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #64748B !important;
+    }
+    div[data-testid="stMetric"] div[data-testid="stMetricValue"] {
+        font-size: 1.75rem !important;
+        font-weight: 700 !important;
+        color: #0F172A !important;
+    }
+
+    /* Tab styling */
+    button[data-baseweb="tab"] {
+        font-weight: 600 !important;
+        font-size: 0.88rem !important;
+        padding: 12px 20px !important;
+    }
+    button[data-baseweb="tab"][aria-selected="true"] {
+        border-bottom-color: #2563EB !important;
+        color: #2563EB !important;
+    }
+
+    /* Expander styling */
+    details[data-testid="stExpander"] {
+        border: 1px solid #E2E8F0 !important;
+        border-radius: 10px !important;
+        background: #FFFFFF !important;
+    }
+
+    /* Form submit button */
+    div[data-testid="stFormSubmitButton"] > button {
+        background: #2563EB !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 8px !important;
+        font-weight: 600 !important;
+        font-size: 0.95rem !important;
+        padding: 0.6rem 1.5rem !important;
+        letter-spacing: 0.01em;
+        transition: background 0.15s ease;
+    }
+    div[data-testid="stFormSubmitButton"] > button:hover {
+        background: #1D4ED8 !important;
+    }
+
+    /* Sidebar */
+    section[data-testid="stSidebar"] {
+        background: #F8FAFC !important;
+        border-right: 1px solid #E2E8F0;
+    }
+
+    /* Download buttons */
+    div[data-testid="stDownloadButton"] > button {
+        border: 1px solid #E2E8F0 !important;
+        border-radius: 8px !important;
+        font-weight: 500 !important;
+        background: #FFFFFF !important;
+        transition: all 0.15s ease;
+    }
+    div[data-testid="stDownloadButton"] > button:hover {
+        border-color: #2563EB !important;
+        background: #EFF6FF !important;
+    }
+
+    /* Dataframe */
+    div[data-testid="stDataFrame"] {
+        border: 1px solid #E2E8F0;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    /* Progress bar */
+    div[data-testid="stProgress"] > div {
+        border-radius: 4px !important;
+    }
+
+    /* Hide default Streamlit branding */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+
+    /* Getting-started cards */
+    .step-card {
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 10px;
+        padding: 1.25rem;
+        text-align: center;
+        height: 100%;
+    }
+    .step-card .step-num {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #EFF6FF;
+        color: #2563EB;
+        font-weight: 700;
+        font-size: 0.9rem;
+        margin-bottom: 0.75rem;
+    }
+    .step-card h4 {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #0F172A;
+        margin: 0 0 0.4rem 0;
+    }
+    .step-card p {
+        font-size: 0.82rem;
+        color: #64748B;
+        margin: 0;
+        line-height: 1.45;
+    }
+
+    /* Multiselect row selector */
+    .row-selector {
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 8px;
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+
+# ---------------------------------------------------------------------------
 # Package versions (for config export)
 # ---------------------------------------------------------------------------
 
@@ -99,19 +327,35 @@ def _results_stale() -> bool:
 def _render_header() -> None:
     col1, col2 = st.columns([3, 1])
     with col1:
-        st.title("🔍 LabelAudit")
-        st.caption("Inspect text datasets for duplicates and potential label issues.")
+        st.markdown("""
+        <div class="main-header">
+            <h1>🔍 LabelAudit</h1>
+            <p>Inspect text datasets for duplicates and potential label issues</p>
+        </div>
+        """, unsafe_allow_html=True)
     with col2:
         st.write("")
         if st.session_state.audit_result is not None:
             if _results_stale():
-                st.warning("⚠️ Results out of date — settings changed.")
+                st.markdown(
+                    '<span class="status-badge status-stale">⚠ Results out of date</span>',
+                    unsafe_allow_html=True,
+                )
             else:
-                st.success("✅ Audit complete")
+                st.markdown(
+                    '<span class="status-badge status-ready">✓ Audit complete</span>',
+                    unsafe_allow_html=True,
+                )
         elif st.session_state.load_result is not None:
-            st.info("📂 Dataset loaded")
+            st.markdown(
+                '<span class="status-badge status-loaded">📂 Dataset loaded</span>',
+                unsafe_allow_html=True,
+            )
         else:
-            st.info("⬆️ No dataset")
+            st.markdown(
+                '<span class="status-badge status-empty">⬆ Upload a dataset</span>',
+                unsafe_allow_html=True,
+            )
 
 
 # ---------------------------------------------------------------------------
@@ -123,7 +367,7 @@ def _render_sidebar() -> Optional[AuditConfig]:
     Render the dataset uploader and main-workspace settings form.
     Returns an AuditConfig if the form was submitted, else None.
     """
-    st.sidebar.header("Dataset")
+    st.sidebar.markdown("### 📂 Dataset")
 
     # --- File upload (outside form so it triggers immediately) ---
     uploaded = st.sidebar.file_uploader(
@@ -171,68 +415,208 @@ def _render_sidebar() -> Optional[AuditConfig]:
     # --- Settings form ---
     submitted_config: Optional[AuditConfig] = None
 
-    st.subheader("Audit setup")
+    st.markdown('<p class="section-label">Audit Setup</p>', unsafe_allow_html=True)
 
     with st.form("settings_form"):
-        st.subheader("Column selection")
-        text_col = st.selectbox(
-            "Text column",
-            all_cols,
+        # Column selection with radio buttons
+        st.markdown("##### Column Selection")
+        col_left, col_right = st.columns(2)
+
+        with col_left:
+            text_col = st.radio(
+                "Text column",
+                all_cols,
+                index=0,
+                key="form_text_col",
+                help="The column containing the text data to analyze.",
+            )
+
+        with col_right:
+            label_col = st.radio(
+                "Label column",
+                all_cols,
+                index=min(1, len(all_cols) - 1),
+                key="form_label_col",
+                help="The column containing the category/class labels.",
+            )
+
+        st.divider()
+
+        # Row selection for audit
+        st.markdown("##### Row Selection")
+        row_selection_mode = st.radio(
+            "Rows to audit",
+            ["All rows", "Select specific rows", "Select row range"],
             index=0,
-            key="form_text_col",
-        )
-        label_col = st.selectbox(
-            "Label column",
-            all_cols,
-            index=min(1, len(all_cols) - 1),
-            key="form_label_col",
+            key="form_row_mode",
+            horizontal=True,
         )
 
-        run_clicked = st.form_submit_button(
-            "▶ Run Audit",
-            use_container_width=True,
-            type="primary",
-        )
+        selected_rows = None
+        csv_row_list = df["csv_row"].tolist()
 
-        st.subheader("Similarity settings")
-        st.caption(
-            "Word TF-IDF (1–2-grams) + optional character TF-IDF (3–5-grams). "
-            "When both are used, cosine similarity = average of word and character cosines."
-        )
-        near_dup_thresh = st.slider(
-            "Near-duplicate threshold",
-            min_value=0.50, max_value=1.00, value=0.90, step=0.01,
-            help="Pairs at or above this threshold with the same label are near-duplicates.",
-        )
-        conflict_thresh = st.slider(
-            "Conflicting-label threshold",
-            min_value=0.50, max_value=1.00, value=0.80, step=0.01,
-            help="Pairs at or above this threshold with different labels are conflicts.",
-        )
-        use_char = st.checkbox("Use character n-grams", value=True)
-        pairwise_limit = st.number_input(
-            "Pairwise analysis limit",
-            min_value=100, max_value=20000, value=5000, step=100,
-            help="Skip near-dup analysis if usable records exceed this count.",
-        )
+        if row_selection_mode == "Select specific rows":
+            def _format_row_label(r_num: int) -> str:
+                match = df[df["csv_row"] == r_num]
+                if not match.empty:
+                    row_data = match.iloc[0]
+                    lbl = str(row_data.get(label_col, ""))
+                    txt = str(row_data.get(text_col, ""))[:35].strip()
+                    return f"Row {r_num} [{lbl}]: {txt}…" if txt else f"Row {r_num} [{lbl}]"
+                return f"Row {r_num}"
 
-        st.subheader("Classifier settings")
-        classifier = st.selectbox(
-            "Classifier",
-            ["LogisticRegression", "LinearSVC"],
+            selected_rows = st.multiselect(
+                "Pick multiple rows to audit",
+                options=csv_row_list,
+                default=csv_row_list[:min(15, len(csv_row_list))],
+                format_func=_format_row_label,
+                help="Select multiple individual rows to include in this audit run.",
+                key="form_selected_rows",
+            )
+            if selected_rows:
+                st.caption(f"✓ {len(selected_rows)} of {len(csv_row_list)} rows selected for audit")
+            else:
+                st.warning("Please select at least 2 rows to run the audit.")
+
+        elif row_selection_mode == "Select row range":
+            min_r = int(min(csv_row_list))
+            max_r = int(max(csv_row_list))
+            range_col1, range_col2 = st.columns(2)
+            with range_col1:
+                start_row = st.number_input(
+                    "Start csv_row",
+                    min_value=min_r,
+                    max_value=max_r,
+                    value=min_r,
+                    step=1,
+                    key="form_range_start",
+                )
+            with range_col2:
+                end_row = st.number_input(
+                    "End csv_row",
+                    min_value=min_r,
+                    max_value=max_r,
+                    value=max_r,
+                    step=1,
+                    key="form_range_end",
+                )
+            if start_row <= end_row:
+                selected_rows = [r for r in csv_row_list if int(start_row) <= r <= int(end_row)]
+                st.caption(f"✓ {len(selected_rows)} rows in range [{start_row}, {end_row}] selected for audit")
+            else:
+                st.error("Start row must be less than or equal to End row.")
+
+        st.divider()
+
+        # Similarity settings
+        st.markdown("##### Similarity Settings")
+        similarity_engine = st.radio(
+            "Similarity Engine",
+            [
+                "Semantic Embeddings (Understands sentence meaning & paraphrases)",
+                "Lexical TF-IDF (Surface word & character overlap)",
+            ],
+            index=0,
+            key="form_similarity_engine",
+            help=(
+                "Semantic Embeddings uses all-MiniLM-L6-v2 neural embeddings to understand "
+                "sentences that have the SAME meaning with DIFFERENT wording (synonyms, paraphrases). "
+                "Lexical TF-IDF matches literal surface words and character overlaps."
+            ),
         )
-        class_weight = st.checkbox("Balanced class weights", value=True)
-        n_folds = st.slider("Cross-validation folds", min_value=2, max_value=10, value=5)
-        random_seed = st.number_input("Random seed", min_value=0, value=42, step=1)
+        is_semantic = "Semantic" in similarity_engine
+
+        if is_semantic:
+            st.caption(
+                "🧠 **Semantic Neural Embeddings (`all-MiniLM-L6-v2`) active.** "
+                "Understands sentence meaning, synonyms, and paraphrasing regardless of differing wording."
+            )
+        else:
+            st.caption(
+                "🔤 **Lexical TF-IDF active.** "
+                "Word TF-IDF (1–2-grams) + optional character TF-IDF (3–5-grams)."
+            )
+
+        sim_col1, sim_col2 = st.columns(2)
+        with sim_col1:
+            near_dup_thresh = st.slider(
+                "Near-duplicate threshold",
+                min_value=0.40 if is_semantic else 0.50,
+                max_value=1.00,
+                value=0.65 if is_semantic else 0.90,
+                step=0.01,
+                help="Pairs at or above this threshold with the same label are near-duplicates.",
+                key="form_near_dup_thresh",
+            )
+        with sim_col2:
+            conflict_thresh = st.slider(
+                "Conflict threshold",
+                min_value=0.40 if is_semantic else 0.50,
+                max_value=1.00,
+                value=0.60 if is_semantic else 0.80,
+                step=0.01,
+                help="Pairs at or above this threshold with different labels are conflicts.",
+                key="form_conflict_thresh",
+            )
+
+        opt_col1, opt_col2 = st.columns(2)
+        with opt_col1:
+            use_char = st.toggle(
+                "Character n-grams",
+                value=True,
+                disabled=is_semantic,
+                help="Applicable to Lexical TF-IDF.",
+            )
+        with opt_col2:
+            pairwise_limit = st.number_input(
+                "Pairwise limit",
+                min_value=100, max_value=20000, value=5000, step=100,
+                help="Skip near-dup analysis if usable records exceed this count.",
+            )
+
+        st.divider()
+
+        # Classifier settings
+        st.markdown("##### Classifier Settings")
+        clf_col1, clf_col2 = st.columns(2)
+        with clf_col1:
+            classifier = st.radio(
+                "Classifier",
+                ["LogisticRegression", "LinearSVC"],
+                key="form_classifier",
+                horizontal=True,
+            )
+            class_weight = st.toggle("Balanced class weights", value=True)
+        with clf_col2:
+            n_folds = st.slider("CV folds", min_value=2, max_value=10, value=5)
+            random_seed = st.number_input("Random seed", min_value=0, value=42, step=1)
+
         min_class_size = st.number_input(
             "Min class size for CV",
             min_value=2, max_value=20, value=3, step=1,
             help="Classes with fewer records are excluded from label analysis.",
         )
 
+        st.write("")
+        run_clicked = st.form_submit_button(
+            "▶ Run Audit",
+            use_container_width=True,
+            type="primary",
+        )
 
     if run_clicked:
-        val = validate_columns(df, text_col, label_col)
+        # Handle row selection
+        audit_df = df
+        if selected_rows is not None and len(selected_rows) > 0:
+            audit_df = df[df["csv_row"].isin(selected_rows)].reset_index(drop=True)
+            if len(audit_df) == 0:
+                st.error("No rows selected. Pick at least one row.")
+                return None
+
+        # Store the filtered df for use in main()
+        st.session_state["_audit_df"] = audit_df
+
+        val = validate_columns(audit_df, text_col, label_col)
         if not val.valid:
             for err in val.errors:
                 st.error(err)
@@ -243,6 +627,7 @@ def _render_sidebar() -> Optional[AuditConfig]:
             near_dup_threshold=near_dup_thresh,
             conflict_threshold=conflict_thresh,
             use_char_ngrams=use_char,
+            similarity_method="semantic" if is_semantic else "tfidf",
             classifier_name=classifier,
             class_weight="balanced" if class_weight else "",
             n_folds=n_folds,
@@ -264,13 +649,17 @@ def _tab_overview(result: AuditResult) -> None:
     excl = result.exclusion
     df = result.df_with_norm
 
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Total rows", excl.n_total_rows)
-    col2.metric("Usable rows", excl.n_usable)
-    col3.metric("Missing text", excl.n_missing_text)
-    col4.metric("Missing label", excl.n_missing_label)
+    # Summary metrics
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("Total rows", excl.n_total_rows)
+    m2.metric("Usable rows", excl.n_usable)
+    m3.metric("Missing text", excl.n_missing_text)
+    m4.metric("Missing label", excl.n_missing_label)
 
-    st.subheader("Dataset preview")
+    st.write("")
+
+    # Dataset preview
+    st.markdown("##### Dataset Preview")
     preview_cols = [c for c in df.columns if c not in {"_norm_text"}]
     st.dataframe(
         df[preview_cols].head(20),
@@ -278,10 +667,11 @@ def _tab_overview(result: AuditResult) -> None:
             cfg.text_col: st.column_config.TextColumn(width="large"),
         },
         use_container_width=True,
-        height=300,
+        height=320,
     )
 
-    st.subheader("Class distribution")
+    # Class distribution
+    st.markdown("##### Class Distribution")
     label_counts = (
         df[~df["_norm_text"].eq("")]
         [cfg.label_col]
@@ -293,15 +683,23 @@ def _tab_overview(result: AuditResult) -> None:
         label_counts,
         x="label", y="count",
         color="label",
-        color_discrete_sequence=px.colors.qualitative.Safe,
+        color_discrete_sequence=["#2563EB", "#7C3AED", "#059669", "#DC2626", "#D97706",
+                                 "#0891B2", "#4F46E5", "#DB2777"],
         labels={"label": cfg.label_col, "count": "Records"},
-        title=f"Records per class (column: {cfg.label_col})",
     )
-    fig.update_layout(showlegend=False, plot_bgcolor="white", height=300)
+    fig.update_layout(
+        showlegend=False,
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
+        height=300,
+        margin=dict(t=10, b=40),
+        xaxis=dict(showgrid=False),
+        yaxis=dict(showgrid=True, gridcolor="#F1F5F9"),
+    )
     st.plotly_chart(fig, use_container_width=True)
 
     # Exclusion summary
-    with st.expander("Exclusion summary"):
+    with st.expander("Exclusion details"):
         rows = []
         if excl.n_missing_text > 0:
             rows.append({"Reason": "Empty/blank text after normalisation",
@@ -315,7 +713,7 @@ def _tab_overview(result: AuditResult) -> None:
             rows.append({"Reason": f"Over pairwise limit ({cfg.pairwise_limit:,}) — near-dup skipped",
                          "Count": excl.n_over_pairwise_limit})
         if rows:
-            st.dataframe(pd.DataFrame(rows), use_container_width=True)
+            st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
         else:
             st.info("No records were excluded.")
 
@@ -328,27 +726,27 @@ def _tab_exact_dups(result: AuditResult) -> None:
     ex = result.exact_dup
     cfg = result.config
 
-    col1, col2, col3 = st.columns(3)
-    col1.metric("Duplicate groups", ex.n_groups,
-                help="Each group has ≥ 2 records with identical normalised text.")
-    col2.metric("Affected records", ex.n_affected_records,
-                help="Total records belonging to any duplicate group.")
-    col3.metric("Redundant records", ex.n_redundant_records,
-                help="Affected records minus one representative per group.")
+    m1, m2, m3 = st.columns(3)
+    m1.metric("Duplicate groups", ex.n_groups,
+              help="Each group has ≥ 2 records with identical normalised text.")
+    m2.metric("Affected records", ex.n_affected_records,
+              help="Total records belonging to any duplicate group.")
+    m3.metric("Redundant records", ex.n_redundant_records,
+              help="Affected records minus one representative per group.")
 
     if ex.n_groups == 0:
-        st.info("✅ No exact duplicates found.")
+        st.info("No exact duplicates found.")
         return
 
     n_conflict_groups = sum(1 for g in ex.groups if g.label_conflict)
     if n_conflict_groups:
         st.warning(
-            f"⚠️ **{n_conflict_groups} group(s)** contain records with conflicting labels — "
-            "identical text but different supplied labels. These warrant manual review."
+            f"**{n_conflict_groups} group(s)** contain records with conflicting labels — "
+            "identical text but different supplied labels."
         )
 
     for i, group in enumerate(ex.groups):
-        label = "⚠️ Label conflict" if group.label_conflict else "✓ Matching labels"
+        label = "⚠ Label conflict" if group.label_conflict else "✓ Labels match"
         with st.expander(
             f"Group {group.group_id} — {len(group.members)} records — {label}",
             expanded=(i < 3),
@@ -360,6 +758,7 @@ def _tab_exact_dups(result: AuditResult) -> None:
                     cfg.text_col: st.column_config.TextColumn(width="large"),
                 },
                 use_container_width=True,
+                hide_index=True,
             )
 
 
@@ -379,28 +778,34 @@ def _tab_near_dups(result: AuditResult) -> None:
         st.info("Near-duplicate analysis did not run.")
         return
 
-    col1, col2, col3 = st.columns(3)
-    col1.metric("Total pairs", nd.n_pairs_total)
-    col2.metric("Near-duplicate pairs", nd.n_near_dup)
-    col3.metric("Conflict pairs", nd.n_conflicts)
+    m1, m2, m3 = st.columns(3)
+    m1.metric("Total pairs", nd.n_pairs_total)
+    m2.metric("Near-duplicate pairs", nd.n_near_dup)
+    m3.metric("Conflict pairs", nd.n_conflicts)
 
+    engine_desc = (
+        "🧠 Semantic Embeddings (all-MiniLM-L6-v2) — meaning-based"
+        if getattr(nd, "similarity_method", "") == "semantic"
+        else "🔤 Lexical TF-IDF"
+    )
     st.caption(
-        f"Near-duplicate threshold: **{cfg.near_dup_threshold}** | "
-        f"Conflict threshold: **{cfg.conflict_threshold}** | "
+        f"Engine: **{engine_desc}** · "
+        f"Near-dup threshold: **{cfg.near_dup_threshold}** · "
+        f"Conflict threshold: **{cfg.conflict_threshold}** · "
         f"Records analysed: **{nd.n_analyzed_records}**"
     )
 
     if nd.hit_pair_cap:
-        st.warning("⚠️ Pair storage cap reached — results shown are partial.")
+        st.warning("Pair storage cap reached — results shown are partial.")
 
     if nd.n_pairs_total == 0:
-        st.info("✅ No near-duplicate or conflicting pairs found at the current thresholds.")
+        st.info("No near-duplicate or conflicting pairs found at the current thresholds.")
         return
 
     pair_df = pairs_to_dataframe(nd.pairs)
 
     # Filters
-    st.subheader("Filters")
+    st.markdown("##### Filters")
     fcol1, fcol2 = st.columns(2)
     with fcol1:
         type_filter = st.multiselect(
@@ -416,7 +821,7 @@ def _tab_near_dups(result: AuditResult) -> None:
         (pair_df["similarity"] >= min_sim)
     ]
 
-    st.subheader(f"Pairs ({len(filtered)} shown)")
+    st.markdown(f"##### Pairs ({len(filtered)} shown)")
     st.dataframe(
         filtered.assign(similarity=filtered["similarity"].round(4)),
         column_config={
@@ -425,10 +830,11 @@ def _tab_near_dups(result: AuditResult) -> None:
         },
         use_container_width=True,
         height=400,
+        hide_index=True,
     )
 
     # Similarity histogram
-    st.subheader("Similarity distribution")
+    st.markdown("##### Similarity Distribution")
     fig = px.histogram(
         pair_df, x="similarity", color="finding_type",
         nbins=40,
@@ -438,16 +844,54 @@ def _tab_near_dups(result: AuditResult) -> None:
             "near_dup_conflict": "#D97706",
         },
         labels={"similarity": "Cosine similarity", "count": "Pairs"},
-        title="Distribution of pairwise cosine similarities",
     )
-    fig.update_layout(plot_bgcolor="white", height=280)
+    fig.update_layout(
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
+        height=280,
+        margin=dict(t=10, b=40),
+        yaxis=dict(showgrid=True, gridcolor="#F1F5F9"),
+        xaxis=dict(showgrid=False),
+    )
     st.plotly_chart(fig, use_container_width=True)
 
     # Detail view
     if len(filtered) > 0:
-        st.subheader("Pair detail view")
+        st.markdown("##### Pair Detail")
         row_options = list(filtered.index)
-        selected_idx = st.selectbox("Select row index to inspect", row_options)
+        if len(row_options) <= 12:
+            selected_idx = st.radio(
+                "Select pair to inspect",
+                row_options,
+                format_func=lambda idx: (
+                    f"Pair #{idx}: Row {filtered.loc[idx, 'csv_row_a']} ↔ "
+                    f"Row {filtered.loc[idx, 'csv_row_b']} "
+                    f"(Sim: {filtered.loc[idx, 'similarity']:.3f})"
+                ),
+                key="near_dup_selected_pair",
+                horizontal=len(row_options) <= 4,
+            )
+        else:
+            page_size = 10
+            n_pages = (len(row_options) - 1) // page_size + 1
+            page = st.radio(
+                "Page",
+                list(range(1, n_pages + 1)),
+                horizontal=True,
+                key="near_dup_page_selector",
+            )
+            page_start = (page - 1) * page_size
+            page_options = row_options[page_start : page_start + page_size]
+            selected_idx = st.radio(
+                "Select pair to inspect",
+                page_options,
+                format_func=lambda idx: (
+                    f"Pair #{idx}: Row {filtered.loc[idx, 'csv_row_a']} ↔ "
+                    f"Row {filtered.loc[idx, 'csv_row_b']} "
+                    f"(Sim: {filtered.loc[idx, 'similarity']:.3f})"
+                ),
+                key="near_dup_selected_pair",
+            )
         row = filtered.loc[selected_idx]
         dcol1, dcol2 = st.columns(2)
         with dcol1:
@@ -456,7 +900,7 @@ def _tab_near_dups(result: AuditResult) -> None:
         with dcol2:
             st.markdown(f"**csv_row {row['csv_row_b']}** — label: `{row['label_b']}`")
             st.text_area("Text B", row["text_b"], height=150, disabled=True, key=f"tb_{selected_idx}")
-        st.markdown(f"**Similarity:** `{row['similarity']:.4f}` | **Type:** `{row['finding_type']}`")
+        st.markdown(f"**Similarity:** `{row['similarity']:.4f}` · **Type:** `{row['finding_type']}`")
         st.markdown(f"**Reason:** {row['reason']}")
 
 
@@ -471,11 +915,11 @@ def _tab_suspicious_labels(result: AuditResult) -> None:
         st.error(f"Label analysis could not run: {la.cannot_run_reason}")
         return
 
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Flagged", la.n_flagged)
-    col2.metric("Not flagged", la.n_not_flagged)
-    col3.metric("Excluded", la.n_excluded)
-    col4.metric(
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("Flagged", la.n_flagged)
+    m2.metric("Not flagged", la.n_not_flagged)
+    m3.metric("Excluded", la.n_excluded)
+    m4.metric(
         "OOF accuracy",
         f"{la.oof_accuracy:.2%}" if la.oof_accuracy is not None else "—",
     )
@@ -487,18 +931,18 @@ def _tab_suspicious_labels(result: AuditResult) -> None:
 
     if la.low_accuracy_warning:
         st.warning(
-            "⚠️ OOF accuracy is below 0.6. Many flags likely reflect model weakness, "
+            "OOF accuracy is below 0.6. Many flags likely reflect model weakness, "
             "not label errors. Review with care."
         )
 
     st.info(
         "**How to read flags:** A model that was not trained on each record predicted "
-        "a different label. This is a review signal only — the supplied label may still "
-        "be correct. Disagreement does not prove an error."
+        "a different label. This is a review signal — the supplied label may still "
+        "be correct."
     )
 
     if la.n_flagged == 0:
-        st.success("✅ No records flagged by the out-of-fold classifier.")
+        st.success("No records flagged by the out-of-fold classifier.")
 
     # Build display dataframe
     flagged_records = [r for r in la.records if r.status == "flagged"]
@@ -531,12 +975,13 @@ def _tab_suspicious_labels(result: AuditResult) -> None:
         flagged_df["predicted_label"].isin(pl_filter)
     ]
 
-    st.subheader(f"Flagged records ({len(filtered)} shown)")
+    st.markdown(f"##### Flagged Records ({len(filtered)} shown)")
     st.dataframe(
         filtered,
         column_config={"text": st.column_config.TextColumn(width="large")},
         use_container_width=True,
         height=400,
+        hide_index=True,
     )
 
     # Flags per supplied class chart
@@ -545,9 +990,16 @@ def _tab_suspicious_labels(result: AuditResult) -> None:
         by_class, x="supplied_label", y="flags",
         color_discrete_sequence=["#DC2626"],
         labels={"supplied_label": "Supplied label", "flags": "Flagged records"},
-        title="Flagged records per supplied class",
     )
-    fig.update_layout(showlegend=False, plot_bgcolor="white", height=280)
+    fig.update_layout(
+        showlegend=False,
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
+        height=280,
+        margin=dict(t=10, b=40),
+        yaxis=dict(showgrid=True, gridcolor="#F1F5F9"),
+        xaxis=dict(showgrid=False),
+    )
     st.plotly_chart(fig, use_container_width=True)
 
 
@@ -559,10 +1011,10 @@ def _tab_evaluation(result: AuditResult) -> None:
     metrics = result.baseline_metrics
     la = result.label_analysis
 
-    st.subheader("Baseline classifier metrics")
+    st.markdown("##### Baseline Classifier Metrics")
     st.caption(
         "These metrics measure how well a simple TF-IDF classifier generalises on "
-        "this dataset — NOT how accurate the audit flags are."
+        "this dataset — not how accurate the audit flags are."
     )
 
     if la.cannot_run:
@@ -587,16 +1039,23 @@ def _tab_evaluation(result: AuditResult) -> None:
         class_df, x="class", y="f1",
         color_discrete_sequence=["#2563EB"],
         labels={"class": "Class", "f1": "F1 score"},
-        title="Per-class F1 (out-of-fold)",
     )
-    fig.update_layout(showlegend=False, plot_bgcolor="white", height=280)
+    fig.update_layout(
+        showlegend=False,
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
+        height=280,
+        margin=dict(t=10, b=40),
+        yaxis=dict(showgrid=True, gridcolor="#F1F5F9"),
+        xaxis=dict(showgrid=False),
+    )
     st.plotly_chart(fig, use_container_width=True)
 
     # Per-class table
     st.dataframe(class_df.set_index("class").round(3), use_container_width=True)
 
     # Confusion matrix
-    st.subheader("Confusion matrix")
+    st.markdown("##### Confusion Matrix")
     cm_df = pd.DataFrame(
         metrics.confusion_matrix,
         index=metrics.labels,
@@ -606,7 +1065,7 @@ def _tab_evaluation(result: AuditResult) -> None:
         z=metrics.confusion_matrix,
         x=metrics.labels,
         y=metrics.labels,
-        colorscale="Blues",
+        colorscale=[[0, "#EFF6FF"], [0.5, "#60A5FA"], [1, "#1E40AF"]],
         text=metrics.confusion_matrix,
         texttemplate="%{text}",
         showscale=True,
@@ -616,18 +1075,15 @@ def _tab_evaluation(result: AuditResult) -> None:
         yaxis_title="True",
         height=350,
         yaxis_autorange="reversed",
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
     )
     st.plotly_chart(fig_cm, use_container_width=True)
 
-    # --- Corruption experiment tab ---
-    st.markdown("---")
-    st.subheader("🧪 Corruption Experiment — SYNTHETIC / EXPERIMENTAL")
-    st.warning(
-        "⚠️ This experiment plants random label errors and measures how well "
-        "the classifier detects them. **Synthetic random corruption does not represent "
-        "real annotation errors**, which are often systematic and ambiguous. "
-        "Results here do not establish real-world label-error detection accuracy."
-    )
+    # --- Corruption experiment ---
+    st.divider()
+    st.markdown("##### Corruption Experiment")
+    st.caption("Plants random label errors and measures detection. Synthetic only — not a real-world benchmark.")
 
     with st.expander("Configure and run experiment", expanded=False):
         exp_col1, exp_col2 = st.columns(2)
@@ -640,7 +1096,7 @@ def _tab_evaluation(result: AuditResult) -> None:
         with exp_col2:
             exp_seed = st.number_input("Chosen seed", 0, 999, 42, key="exp_seed")
 
-        run_exp = st.button("Run experiment", key="run_experiment")
+        run_exp = st.button("Run experiment", key="run_experiment", type="secondary")
 
     if run_exp:
         cfg = result.config
@@ -691,9 +1147,9 @@ def _tab_evaluation(result: AuditResult) -> None:
             ecol3.metric("F1 (chosen seed)", _fmt(sr.f1))
 
             st.markdown(
-                f"Corrupted: **{sr.n_corrupted}** | "
-                f"Flagged: **{sr.n_flagged}** | "
-                f"TP: **{sr.tp}** | FP: **{sr.fp}** | FN: **{sr.fn}**"
+                f"Corrupted: **{sr.n_corrupted}** · "
+                f"Flagged: **{sr.n_flagged}** · "
+                f"TP: **{sr.tp}** · FP: **{sr.fp}** · FN: **{sr.fn}**"
             )
             st.markdown(
                 f"**Random baseline precision** (= corruption rate): "
@@ -702,7 +1158,7 @@ def _tab_evaluation(result: AuditResult) -> None:
             if exp_result.mean_precision is not None:
                 st.markdown(
                     f"Multi-seed mean precision: `{exp_result.mean_precision:.3f}` "
-                    f"±`{exp_result.std_precision:.3f}` | "
+                    f"±`{exp_result.std_precision:.3f}` · "
                     f"mean recall: `{exp_result.mean_recall:.3f}` "
                     f"±`{exp_result.std_recall:.3f}`"
                 )
@@ -715,8 +1171,8 @@ def _tab_evaluation(result: AuditResult) -> None:
 def _tab_export(result: AuditResult, sanitize: bool = True) -> None:
     cfg = result.config
 
-    st.subheader("Downloads")
-    sanitize_toggle = st.checkbox(
+    st.markdown("##### Downloads")
+    sanitize_toggle = st.toggle(
         "Guard against spreadsheet formula injection",
         value=True,
         help=(
@@ -725,6 +1181,7 @@ def _tab_export(result: AuditResult, sanitize: bool = True) -> None:
         ),
     )
 
+    st.write("")
     col1, col2, col3 = st.columns(3)
 
     # Full row report
@@ -735,6 +1192,7 @@ def _tab_export(result: AuditResult, sanitize: bool = True) -> None:
             data=df_to_csv_bytes(full_report),
             file_name="labelaudit_full_report.csv",
             mime="text/csv",
+            use_container_width=True,
         )
 
     # Flagged records
@@ -745,6 +1203,7 @@ def _tab_export(result: AuditResult, sanitize: bool = True) -> None:
             data=df_to_csv_bytes(flagged_report),
             file_name="labelaudit_flagged.csv",
             mime="text/csv",
+            use_container_width=True,
         )
 
     # Pair report
@@ -755,7 +1214,10 @@ def _tab_export(result: AuditResult, sanitize: bool = True) -> None:
             data=df_to_csv_bytes(pair_report),
             file_name="labelaudit_pairs.csv",
             mime="text/csv",
+            use_container_width=True,
         )
+
+    st.write("")
 
     # Config summary
     pkg_versions = _get_package_versions()
@@ -771,7 +1233,7 @@ def _tab_export(result: AuditResult, sanitize: bool = True) -> None:
         exp = st.session_state.corruption_result
         if not exp.cannot_run:
             st.download_button(
-                "📥 Corruption experiment results (JSON) — SYNTHETIC",
+                "📥 Corruption experiment results (JSON)",
                 data=dict_to_json_bytes({
                     "WARNING": "Synthetic random corruption. Not a real-world benchmark.",
                     "corruption_rate": exp.corruption_rate,
@@ -791,11 +1253,12 @@ def _tab_export(result: AuditResult, sanitize: bool = True) -> None:
                     "mean_recall": exp.mean_recall,
                     "std_recall": exp.std_recall,
                 }),
-                file_name="labelaudit_experiment_SYNTHETIC.json",
+                file_name="labelaudit_experiment.json",
                 mime="application/json",
             )
 
-    st.subheader("Configuration summary")
+    st.divider()
+    st.markdown("##### Configuration Summary")
     st.json(config_summary)
 
 
@@ -815,9 +1278,10 @@ def main() -> None:
 
     # --- Run audit if form submitted ---
     if submitted_config is not None:
-        load_result = st.session_state.load_result
+        # Use the filtered df if row selection was applied
+        audit_df = st.session_state.get("_audit_df", st.session_state.load_result.df)
         fingerprint = st.session_state.file_fingerprint
-        audit_key = f"{fingerprint}-{submitted_config.config_hash()}"
+        audit_key = f"{fingerprint}-{submitted_config.config_hash()}-{len(audit_df)}"
 
         if st.session_state.audit_key != audit_key:
             progress_bar = st.progress(0, text="Preparing…")
@@ -828,7 +1292,7 @@ def main() -> None:
             with st.spinner("Running audit…"):
                 try:
                     audit_result = run_audit(
-                        load_result.df,
+                        audit_df,
                         submitted_config,
                         fingerprint,
                         progress_callback=_progress,
@@ -847,16 +1311,37 @@ def main() -> None:
     audit_result: Optional[AuditResult] = st.session_state.audit_result
     if audit_result is None:
         if st.session_state.load_result is None:
-            st.markdown(
-                """
-                ### Getting started
-                1. Upload a CSV file using the sidebar.
-                2. Select the text and label columns.
-                3. Adjust settings and press **▶ Run Audit**.
-                """
-            )
+            # Getting-started screen
+            st.write("")
+            st.markdown("### Getting Started")
+            st.write("")
+            c1, c2, c3 = st.columns(3)
+            with c1:
+                st.markdown("""
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <h4>Upload a CSV</h4>
+                    <p>Use the sidebar uploader. Accepts comma, semicolon, or tab-delimited files up to 50 MB.</p>
+                </div>
+                """, unsafe_allow_html=True)
+            with c2:
+                st.markdown("""
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <h4>Select Columns</h4>
+                    <p>Pick which column holds the text and which holds the category labels.</p>
+                </div>
+                """, unsafe_allow_html=True)
+            with c3:
+                st.markdown("""
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <h4>Run the Audit</h4>
+                    <p>Adjust thresholds and classifier settings, then press Run Audit to start analysis.</p>
+                </div>
+                """, unsafe_allow_html=True)
         else:
-            st.info("Choose your columns and settings in the Audit setup form above, then press **▶ Run Audit**.")
+            st.info("Dataset loaded. Select columns and settings in the Audit Setup form above, then press **▶ Run Audit**.")
         return
 
     tabs = st.tabs([

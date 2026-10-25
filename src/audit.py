@@ -41,6 +41,7 @@ class AuditConfig:
     near_dup_threshold: float = 0.90
     conflict_threshold: float = 0.80
     use_char_ngrams: bool = True
+    similarity_method: str = "tfidf"   # "semantic" or "tfidf"
     classifier_name: str = "LogisticRegression"   # or "LinearSVC"
     class_weight: str = "balanced"                 # or ""
     n_folds: int = 5
@@ -231,6 +232,7 @@ def run_audit(
             use_char=config.use_char_ngrams,
             pairwise_limit=config.pairwise_limit,
             exact_dup_result=exact_dup_result,
+            similarity_method=config.similarity_method,
         )
         if near_dup_result.hit_pair_cap:
             near_dup_skip_reason = (

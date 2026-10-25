@@ -42,45 +42,17 @@ import pandas as pd
 # zero-width captures (via lookahead/lookbehind), then match and replace
 # the "remove" cases.
 # Strategy: use a callback function with re.sub to decide per match.
-_PUNCT_BETWEEN_DIGITS = re.compile(r"(?<=\d)[.,](?=\d)")   # keep 3.14
-_APOSTROPHE_IN_WORD = re.compile(r"(?<=\w)'(?=\w)")        # keep don't
-_REMAINING_PUNCT = re.compile(r"[^\w\s]")                   # remove the rest
+_PUNCT_PATTERN = re.compile(r"((?<=\w)'(?=\w)|(?<=\d)[.,](?=\d))|[^\w\s]")
 _MULTI_SPACE = re.compile(r"\s+")
 
 
 def _replace_punct(text: str) -> str:
     """
-    Replace punctuation with a space, with two exceptions:
+    Replace punctuation with a space in a single pass, with two exceptions:
     1. Apostrophes between word chars (don't) → kept.
     2. Periods/commas between digits (3.14) → kept.
-    Implemented with a single regex substitution using a callback.
     """
-    # Mark the protected spans with a sentinel that is not ASCII punct.
-    # We collect (start, end) for all protected ranges first.
-    protected: list[tuple[int, int]] = []
-    for m in _APOSTROPHE_IN_WORD.finditer(text):
-        protected.append(m.span())
-    for m in _PUNCT_BETWEEN_DIGITS.finditer(text):
-        protected.append(m.span())
-
-    if not protected:
-        return _REMAINING_PUNCT.sub(" ", text)
-
-    # Build the result character by character (text is short, this is fine).
-    protected_set: set[int] = set()
-    for start, end in protected:
-        for i in range(start, end):
-            protected_set.add(i)
-
-    result = []
-    for i, ch in enumerate(text):
-        if i in protected_set:
-            result.append(ch)
-        elif _REMAINING_PUNCT.match(ch):
-            result.append(" ")
-        else:
-            result.append(ch)
-    return "".join(result)
+    return _PUNCT_PATTERN.sub(lambda m: m.group(1) if m.group(1) else " ", text)
 
 
 def normalize_text(text: str) -> str:
